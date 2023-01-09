@@ -105,7 +105,7 @@ while continue_calculation:
     # display operators
     operator = operator_input()
 
-    # get other number to perform math operation on with the previous answer 
+    # get new number  to perform math operation on it with the previous answer 
     try:
         num2 = int(input("Number2:"))
     except ValueError as error:
