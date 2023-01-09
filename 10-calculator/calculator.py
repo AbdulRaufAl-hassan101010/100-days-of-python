@@ -54,7 +54,7 @@ def operator_input():
     return input("")
 
 
-def calculate(num1, num2):
+def calculate(num1, num2, operator):
     """
         return the sum after the operation
     """
@@ -72,49 +72,55 @@ operators = {
     "%": mudulo
 }
 
-from art import logo
-print(logo)
 
-try:
-    # get integers and operator fro user
-    num1 = int(input("Number1:"))
-    operator = operator_input()
-    num2 = int(input("Number2:"))
+def runtime():
+    from art import logo
+    print(logo)
 
-    # do calculation with the input 
-    answer = calculate(num1, num2)
-    # clear console
-    clear()
-    # display results
-    print(f"{num1} {operator} {num2} = {answer}")
-except ValueError as error:
-    if ("invalid literal" in str(error)):
-        sys.exit("Must be an integer")
-
-# countine calculation
-continue_calculation = True
-while continue_calculation:
-    continue_calculation = input("Do you want to continue? 'yes' or 'no'. ")
-
-    # continue calculation if user types yes 
-    if continue_calculation == "no":
-        break
-    else:
-        continue_calculation = True
-
-    # display operators
-    operator = operator_input()
-
-    # get new number  to perform math operation on it with the previous answer 
     try:
+        # get integers and operator fro user
+        num1 = int(input("Number1:"))
+        operator = operator_input()
         num2 = int(input("Number2:"))
+
+        # do calculation with the input
+        answer = calculate(num1, num2, operator)
+        # clear console
+        clear()
+        # display results
+        print(f"{num1} {operator} {num2} = {answer}")
     except ValueError as error:
         if ("invalid literal" in str(error)):
             sys.exit("Must be an integer")
 
-    prev_answer = answer
-    answer = calculate(answer, num2)
+    # countine calculation
+    continue_calculation = True
+    while continue_calculation:
+        continue_calculation = input(
+            "Do you want to continue? 'yes' or 'no'. ")
 
-    clear()
+        # continue calculation if user types yes
+        if continue_calculation == "no":
+            runtime()
+        else:
+            continue_calculation = True
 
-    print(f"{prev_answer} {operator} {num2} = {answer}")
+        # display operators
+        operator = operator_input()
+
+        # get new number  to perform math operation on it with the previous answer
+        try:
+            num2 = int(input("Number2:"))
+        except ValueError as error:
+            if ("invalid literal" in str(error)):
+                sys.exit("Must be an integer")
+
+        prev_answer = answer
+        answer = calculate(answer, num2, operator)
+
+        clear()
+
+        print(f"{prev_answer} {operator} {num2} = {answer}")
+
+
+runtime()
