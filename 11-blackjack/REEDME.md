@@ -1,0 +1,6 @@
+# PYTHON BLACKJACK ♠♦♥♣️♥️🎱
+
+### About The Game
+<b>BlackJack</b> also called twenty-one and pontoon, gambling card game popular in casinos throughout the world. Its origin is disputed, but it is certainly related to several French and Italian gambling games. In Britain since World War I, the informal game has been called pontoon.
+
+Players hope to get a total card value of 21 or to come closer to it, without going over, than the dealer, against whom all betting is done. For this purpose aces count as 1 or 11, face cards as 10, and the rest at their index value. A hand counting 21 on the first two cards (an ace and a 10 or face card) is called a natural or a blackjack. Suits are irrelevant. In most varieties of the game, a player receiving two cards of the same rank may split them, receiving a second card for each, and play the two hands independently of each other. Another common rule is to allow “doubling down” with two cards that total 11 (in some variants 11 or 10)—the player doubles the bet, turns up the cards, and takes one more card facedown. In some games a player wins extra by getting five cards without “going bust” (going over 21).
