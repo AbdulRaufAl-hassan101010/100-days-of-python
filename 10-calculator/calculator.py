@@ -62,6 +62,8 @@ def calculate(num1, num2, operator):
         return operators[operator](num1, num2)
     except KeyError:
         sys.exit(f"{operator} is not a valid operator")
+    except KeyboardInterrupt:
+        return
 
 
 operators = {
@@ -92,12 +94,17 @@ def runtime():
     except ValueError as error:
         if ("invalid literal" in str(error)):
             sys.exit("Must be an integer")
+    except KeyboardInterrupt:
+        return
 
     # countine calculation
     continue_calculation = True
     while continue_calculation:
-        continue_calculation = input(
-            "Do you want to continue? 'yes' or 'no'. ")
+        try:
+            continue_calculation = input(
+                "Do you want to continue? 'yes' or 'no'. ")
+        except KeyboardInterrupt:
+            return
 
         # continue calculation if user types yes
         if continue_calculation == "no":
@@ -114,6 +121,8 @@ def runtime():
         except ValueError as error:
             if ("invalid literal" in str(error)):
                 sys.exit("Must be an integer")
+        except KeyboardInterrupt:
+            return
 
         prev_answer = answer
         answer = calculate(answer, num2, operator)
@@ -121,6 +130,7 @@ def runtime():
         clear()
 
         print(f"{prev_answer} {operator} {num2} = {answer}")
+
 
 # start program
 runtime()
