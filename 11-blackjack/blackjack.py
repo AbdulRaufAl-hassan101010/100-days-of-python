@@ -65,7 +65,6 @@ def play_game():
     player_score = calculate_scores(player_cards)
     dealer_score = calculate_scores(dealer_cards)
     while not end_game:
-
         # check players scores
         player_score = calculate_scores(player_cards)
         dealer_score = calculate_scores(dealer_cards)
@@ -81,8 +80,11 @@ def play_game():
             break
 
         # ask player if play wants to continue playing
-        continue_playing = input(
-            "Do you want another card? type 'y' or 'n' ").lower()
+        try:
+            continue_playing = input(
+                "Do you want another card? type 'y' or 'n' ").lower()
+        except KeyboardInterrupt:
+            return
 
         if continue_playing == 'n':
             end_game = True
@@ -105,7 +107,10 @@ def play_game():
     print(results(dealer_score, player_score))
 
     # ask player if player wants to play again
-    play_again = input("Do you want to play again? 'y' or 'no' ")
+    try:
+        play_again = input("Do you want to play again? 'y' or 'no' ")
+    except KeyboardInterrupt:
+        return
 
     if play_again == 'y':
         play_game()
