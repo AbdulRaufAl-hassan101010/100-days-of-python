@@ -1,9 +1,39 @@
 from random import randint
 import sys
 import os
-
-
 from arts import logo
+
+HARD_LEVEL_LIVES = 5
+EASY_LEVEL_LIVES = 10
+
+
+def set_difficulty():
+    # ask user which level the user wants play "easy" or "hard"
+    try:
+        level = input("Do you want to play 'hard' or 'easy'? ").lower()
+    except KeyboardInterrupt:
+        return
+
+    if level == "hard":
+        return HARD_LEVEL_LIVES
+    else:
+        return EASY_LEVEL_LIVES
+
+
+def check_answer(answer, guess, lives):
+    # if user's guess is answer end loop(end game)
+    if guess == answer:
+        print(f"You guessed the correct answer:{answer}")
+        return lives
+    if answer > guess:
+        print(f"Too Low")
+        return lives - 1
+    if answer < guess:
+        print(f"Too High")
+        return lives - 1
+
+    if lives < 1:
+        print(f"You have no lives left the answer is {answer}")
 
 
 def start_game():
@@ -13,21 +43,15 @@ def start_game():
     # generate random number
     answer = randint(1, 100)
 
-    # ask user which level the user wants play "easy" or "hard"
-    try:
-        level = input("Do you want to play 'hard' or 'easy'? ").lower()
-    except KeyboardInterrupt:
-        return
-
-    # if easy user has 10 lives
-    lives = 10
-    # else if user chose hard, give user 5 lives
-    if level == 'hard':
-        lives = 5
+    # set game difficulty base on user input 'hard'=5lives and 'easy'=10lives
+    lives = set_difficulty()
 
     # while user lives > 0 or user's guess not answer
-    users_guess = True
+    users_guess = 0
     while lives > 0 and users_guess != answer:
+        # display lives
+        print(f"You have {lives} left.")
+
         # ask user to guess a number between 1 - 100
         try:
             users_guess = int(input("Guess a number between 1 - 100? "))
@@ -36,35 +60,12 @@ def start_game():
         except KeyboardInterrupt:
             sys.exit()
 
-        # if user's guess is answer end loop(end game)
-        if users_guess == answer:
-            break
+        # check if user's guess the correct answer
+        lives = check_answer(answer, users_guess, lives)
 
-        # if  answer > user's guess print message telling the user
-        if answer > users_guess:
-            print(f"Your answer > {users_guess}")
-
-        # if user's guess < answer print message telling the user
-        if answer < users_guess:
-            print(f"Your answer < {users_guess}")
-
-        # take one user live
-        lives -= 1
-        print(f"You have {lives} left.")
-        # repeat until user's live < 1 or user's guess == answer
-
-    # if user is out of lives end game
-    if lives < 1:
-        print("Game Over!!")
-    else:
-        # user got the anwser
-        print("You won!!")
-    print(f"The number is {answer}")
-
-    # ask user if user whants to play again ?
-    # ask user which level the user wants play "easy" or "hard"
+    # ask user if user wants to play again ?
     try:
-        level = play_again = input(
+        play_again = input(
             "Do you want to play again? 'y' or 'no' ").lower()
     except KeyboardInterrupt:
         return
