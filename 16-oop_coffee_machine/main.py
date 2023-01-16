@@ -1,6 +1,11 @@
 from coffee_maker import CoffeeMaker
+from money_machine import MoneyMachine
+from menu import Menu
 
 coffeeMaker = CoffeeMaker()
+moneyMachine = MoneyMachine()
+menu = Menu()
+
 
 machine_state = True
 # while machine_state == "on"
@@ -18,28 +23,19 @@ while machine_state:
     # if user inputs 'report' print resources available
     if coffee == "report":
         coffeeMaker.report()
+        moneyMachine.report()
     else:
         # if user select a coffee
-        if coffee != "espresso" and coffee != "latte" and coffee != "cappuccino":
+        if menu.find_drink(coffee) == None:
             print(
                 f"{coffee} is not available. Please Select coffee from our list (espresso/latte/cappuccino)")
         else:
             # ask customer to insert coins
             print("Please insert coins.")
-            coins = coins_calculator()
 
-            # verify transaction if coins < coffee price
-            if coins < MENU[coffee]["cost"]:
-                # refund customer
-                print(
-                    f"Sorry, you dont have enough coins to purchase {coffee}")
-                print(f"Your ${coins} has been refunded")
-            else:
-                # else make coffee
-                if make_coffee(coffee):
-                    # give customer change
-                    customer_change(coins)
-
-                    # add money to sales
-                    cost = MENU[coffee]["cost"]
-                    resources["money"] += cost
+            # verify transaction 
+            select_coffee = menu.find_drink(coffee)
+            if moneyMachine.make_payment(select_coffee.cost):
+                # make coffee
+                if coffeeMaker.is_resource_sufficient(select_coffee):
+                    coffeeMaker.make_coffee(select_coffee)
