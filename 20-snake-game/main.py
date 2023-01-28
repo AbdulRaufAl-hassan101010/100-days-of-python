@@ -1,44 +1,41 @@
-from turtle import Screen
 import time
 from snake import Snake
+from game_screen import Game_Screen
+from snake_food import Snake_Food
+from scoreboard import Scoreboard
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 500
-
-screen = Screen()
-screen.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
-screen.bgcolor("black")
-screen.title("snake game")
-screen.tracer(0)
-
-
-segments = []
-score = 0
-starting_positions = [(0, 0), (-20, 0), (-40, 0)]
-
+game_screen = Game_Screen()
+# create snake
 snake = Snake()
-
+# create snake food
+snake_food = Snake_Food(left_wall=game_screen.left_wall,
+                        right_wall=game_screen.right_wall, top_wall=game_screen.top_wall, bottom_wall=game_screen.bottom_wall)
+# scores
+score = Scoreboard()
+ 
 # events
-screen.listen()
-screen.onkey(key="Up", fun=snake.move_up)
-screen.onkey(key="Down", fun=snake.move_down)
-screen.onkey(key="Left", fun=snake.move_left)
-screen.onkey(key="Right", fun=snake.move_right)
+game_screen.screen.listen()
+game_screen.screen.onkey(key="Up", fun=snake.move_up)
+game_screen.screen.onkey(key="Down", fun=snake.move_down)
+game_screen.screen.onkey(key="Left", fun=snake.move_left)
+game_screen.screen.onkey(key="Right", fun=snake.move_right)
 
 
 is_game_on = True
 while is_game_on:
-    # end game when snake hits the wall
-    left_wall = (SCREEN_WIDTH * - 1) / 2
-    right_wall = SCREEN_WIDTH / 2
-    top_wall = SCREEN_HEIGHT / 2
-    bottom_wall = (SCREEN_HEIGHT * -1) / 2
-    if snake.head.xcor() > right_wall or snake.head.xcor() < left_wall or snake.head.ycor() > top_wall or snake.head.ycor() < bottom_wall:
-        is_game_on = False
-
     time.sleep(0.1)
-    screen.update()
+    game_screen.screen.update()
     snake.move()
 
+    # end game when snake hits the wall
+    if snake.head.xcor() > game_screen.right_wall or snake.head.xcor() < game_screen.left_wall or snake.head.ycor() > game_screen.top_wall or snake.head.ycor() < game_screen.bottom_wall:
+        is_game_on = False
 
-screen.exitonclick()
+    # dectect collision with food
+    if snake.head.distance(snake_food) < 12:
+        snake_food.refresh()
+        snake.grow_snake()
+        score.add_to_score()
+
+
+game_screen.screen.exitonclick()
