@@ -12,7 +12,7 @@ snake_food = Snake_Food(left_wall=game_screen.left_wall,
                         right_wall=game_screen.right_wall, top_wall=game_screen.top_wall, bottom_wall=game_screen.bottom_wall)
 # scores
 score = Scoreboard()
- 
+
 # events
 game_screen.screen.listen()
 game_screen.screen.onkey(key="Up", fun=snake.move_up)
@@ -23,12 +23,13 @@ game_screen.screen.onkey(key="Right", fun=snake.move_right)
 
 is_game_on = True
 while is_game_on:
-    time.sleep(0.1)
+    time.sleep(0.06)
     game_screen.screen.update()
     snake.move()
 
     # end game when snake hits the wall
     if snake.head.xcor() > game_screen.right_wall or snake.head.xcor() < game_screen.left_wall or snake.head.ycor() > game_screen.top_wall or snake.head.ycor() < game_screen.bottom_wall:
+        score.game_over()
         is_game_on = False
 
     # dectect collision with food
@@ -36,6 +37,11 @@ while is_game_on:
         snake_food.refresh()
         snake.grow_snake()
         score.add_to_score()
+
+    for segment in snake.segments[1:]:
+        if snake.head.distance(segment) < 5:
+            is_game_on = False
+            score.game_over()
 
 
 game_screen.screen.exitonclick()
