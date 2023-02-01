@@ -27,6 +27,9 @@ for _ in range(50):
 left_paddle = Paddle(position=(-350, 0))
 right_paddle = Paddle(position=(350, 0))
 
+# create ball
+ball = Ball()
+
 # event listeners
 screen.listen()
 # left paddle ctrl
@@ -36,28 +39,25 @@ screen.onkeypress(key="Down", fun=left_paddle.down)
 screen.onkeypress(key="w", fun=right_paddle.up)
 screen.onkeypress(key="s", fun=right_paddle.down)
 
-# create ball
-ball = Ball()
 
 is_game_on = True
 while is_game_on:
-    time.sleep(0.05)
-
-    print(left_paddle.distance(ball) < 10)
-    if left_paddle.distance(ball) < 20:
-        ball.hit_ball(position="left")
-    elif right_paddle.distance(ball) < 20:
-        ball.hit_ball(position="right")
-    elif ball.ycor() > 280:
-        ball.hit_ball(position="top")
-    elif ball.ycor() < -280:
-        ball.hit_ball(position="top")
-    else:
-        ball.move_ball()
+    time.sleep(0.1)
     screen.update()
+    ball.move()
 
+    # dectect collision with all
+    if ball.ycor() > 280 or ball.ycor() < -280:
+        ball.bounce_y()
 
-# detect ball and paddle collision
+    # detect ball and paddle collision
+    if (ball.distance(right_paddle) < 50 and ball.xcor() > 330) or (ball.distance(left_paddle) < 50 and ball.xcor() < -330):
+        ball.bounce_x()
+    elif ball.xcor() > 400:
+        ball.reset()
+    elif ball.xcor() < -400:
+        ball.reset()
+
 # detect ball miss paddle collision
 # Keep score
 

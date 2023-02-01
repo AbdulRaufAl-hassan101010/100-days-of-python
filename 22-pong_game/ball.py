@@ -8,25 +8,21 @@ class Ball(Turtle):
         self.shape('circle')
         self.penup()
         self.color("white")
-        self.move_ball()
-        self.setheading(random.randint(150, 220))
+        self.x_move = 10
+        self.y_move = 10
 
-    def move_ball(self):
-        self.forward(10)
+    def move(self):
+        new_x = self.xcor() + self.x_move
+        new_y = self.ycor() + self.y_move
+        self.goto(new_x, new_y)
 
-    def hit_ball(self, position):
-        if position == "left":
-            top = random.randint(0, 90)
-            down = random.randint(270, 360)
-        elif position == "right":
-            top = random.randint(45, 90)
-            down = random.randint(275, 325)
-        elif position == "top":
-            top = random.randint(275, 325)
-            down = random.randint(275, 325)
-        elif position == "bottom":
-            top = random.randint(45, 90)
-            down = random.randint(45, 90)
+    def bounce_y(self):
+        self.y_move *= -1
 
-        self.setheading(random.choice([top, down]))
-        self.move_ball()
+    def bounce_x(self):
+        self.x_move *= -1
+
+
+    def reset(self):
+        self.home()
+        self.bounce_x()
