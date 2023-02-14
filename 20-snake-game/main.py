@@ -38,6 +38,7 @@ while is_game_on:
         snake.grow_snake()
         score.add_to_score()
 
+    # detect collision with body
     for segment in snake.segments[1:]:
         if snake.head.distance(segment) < 5:
             is_game_on = False
