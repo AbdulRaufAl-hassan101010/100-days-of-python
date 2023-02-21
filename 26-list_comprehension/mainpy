@@ -1,0 +1,8 @@
+# double the numbers in the list
+numbers = [1, 2, 3, 5]
+new_numbers = [num*2 for num in numbers]
+
+
+# get the evev numbers
+even_numbers = [num for num in numbers if num % 2 == 0]
+print(even_numbers)
