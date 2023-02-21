@@ -35,13 +35,10 @@ while len(guessed_states) < 50:
     # dnt show modal text if user close it
     if state == None or state == 'Exit':
         # get unguessed states and save as a cvs file
-        missing_states = []
-        for missing_state in states:
-            if missing_state not in guessed_states:
-                missing_states.append(missing_state)
-        unguessed_states = pandas.DataFrame({
-            "states": missing_states
-        })
+        missing_states = [
+            missing_state for missing_state in states if missing_state not in guessed_states]
+
+        unguessed_states = pandas.DataFrame(missing_states)
         unguessed_states.to_csv("unguessed_states.csv")
         break
 
